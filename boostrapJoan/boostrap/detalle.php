@@ -4,26 +4,26 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-
 require 'ProductoController.php';
 
-$productoController = new ProductoController();
-$response = $productoController->obtenerProductos();
-$productos = json_decode($response, true);
+// Obtener el ID del producto desde la URL
+$productId = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
-if (isset($productos['error'])) {
-    echo "<p>Error: " . htmlspecialchars($productos['error']) . "</p>";
+$productoController = new ProductoController();
+$response = $productoController->obtenerProductoPorId($productId);
+$producto = json_decode($response, true);
+
+if (isset($producto['error']) || empty($producto)) {
+    echo "<p>Error: " . htmlspecialchars($producto['error'] ?? 'Producto no encontrado') . "</p>";
     exit();
 }
-
-$productos = $productos['data']; 
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Inicio - Productos</title>
+    <title>Detalles del Producto - <?= htmlspecialchars($producto['data']['name']) ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -55,8 +55,8 @@ $productos = $productos['data'];
             overflow-y: auto; 
             padding-top: 20px; 
         }
-        .card {
-            height: 100%; 
+        .mt-5 {
+            margin-top: 3rem; 
         }
     </style>
 </head>
@@ -64,7 +64,6 @@ $productos = $productos['data'];
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Tienda Joan</a>
-            <a class="navbar-brand" href="index.html">Cerrar sesion</a>
         </div>
     </nav>
 
@@ -76,20 +75,20 @@ $productos = $productos['data'];
     </div>
 
     <div class="content">
-        <div class="container">
+        <div class="container mt-5"> 
             <div class="row">
-                <?php foreach ($productos as $producto) : ?>
-                    <div class="col-md-4 mb-4">
-                        <div class="card">
-                            <img src="<?= htmlspecialchars($producto['cover']) ?>" class="card-img-top" alt="<?= htmlspecialchars($producto['name']) ?>">
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title"><?= htmlspecialchars($producto['name']) ?></h5>
-                                <p class="card-text"><?= htmlspecialchars($producto['description']) ?></p>
-                                <a href="detalle.php?id=<?= $producto['id'] ?>" class="btn btn-primary mt-auto">Detalles</a>
-                            </div>
+                <div class="col-md-6 mb-4">
+                    <div class="card">
+                        <img src="<?= htmlspecialchars($producto['data']['cover']) ?>" class="card-img-top" alt="<?= htmlspecialchars($producto['data']['name']) ?>">
+                        <div class="card-body">
+                            <h5 class="card-title"><?= htmlspecialchars($producto['data']['name']) ?></h5>
+                            <p class="card-text"><?= htmlspecialchars($producto['data']['description']) ?></p>
+                            <h6>Características:</h6>
+                            <p><?= htmlspecialchars($producto['data']['features']) ?></p>
+                            <a href="home.php" class="btn btn-secondary">Volver a Home</a>
                         </div>
                     </div>
-                <?php endforeach; ?>
+                </div>
             </div>
         </div>
     </div>
