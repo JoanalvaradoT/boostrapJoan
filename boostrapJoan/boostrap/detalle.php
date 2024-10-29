@@ -6,7 +6,6 @@ error_reporting(E_ALL);
 
 require 'ProductoController.php';
 
-// Obtener el ID del producto desde la URL
 $productId = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
 $productoController = new ProductoController();

@@ -4,7 +4,6 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-
 require 'ProductoController.php';
 
 $productoController = new ProductoController();
@@ -64,7 +63,7 @@ $productos = $productos['data'];
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Tienda Joan</a>
-            <a class="navbar-brand" href="index.html">Cerrar sesion</a>
+            <a class="navbar-brand" href="index.html">Cerrar sesión</a>
         </div>
     </nav>
 
@@ -86,10 +85,18 @@ $productos = $productos['data'];
                                 <h5 class="card-title"><?= htmlspecialchars($producto['name']) ?></h5>
                                 <p class="card-text"><?= htmlspecialchars($producto['description']) ?></p>
                                 <a href="detalle.php?id=<?= $producto['id'] ?>" class="btn btn-primary mt-auto">Detalles</a>
+                                <a href="actualizar_producto.php?id=<?= $producto['id'] ?>" class="btn btn-warning mt-2">Actualizar Producto</a>
                             </div>
                         </div>
                     </div>
                 <?php endforeach; ?>
+            </div>
+            <div class="row mt-4">
+                <div class="col-12 text-center">
+                    <a href="crear_producto.php">
+                        <button class="btn btn-success">Agregar Producto</button>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
