@@ -3,21 +3,16 @@ session_start();
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-
 require 'ProductoController.php';
-
 $productId = isset($_GET['id']) ? intval($_GET['id']) : 0;
-
 $productoController = new ProductoController();
 $response = $productoController->obtenerProductoPorId($productId);
 $producto = json_decode($response, true);
-
 if (isset($producto['error']) || empty($producto)) {
     echo "<p>Error: " . htmlspecialchars($producto['error'] ?? 'Producto no encontrado') . "</p>";
     exit();
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -65,14 +60,12 @@ if (isset($producto['error']) || empty($producto)) {
             <a class="navbar-brand" href="#">Tienda Joan</a>
         </div>
     </nav>
-
     <div class="sidebar">
         <h4>Menú</h4>
         <ul class="list-unstyled">
             <li><a href="home.php">Home</a></li>
         </ul>
     </div>
-
     <div class="content">
         <div class="container mt-5"> 
             <div class="row">
@@ -91,7 +84,6 @@ if (isset($producto['error']) || empty($producto)) {
             </div>
         </div>
     </div>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

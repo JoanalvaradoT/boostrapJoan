@@ -3,21 +3,16 @@ session_start();
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-
 require 'ProductoController.php';
-
 $productoController = new ProductoController();
 $response = $productoController->obtenerProductos();
 $productos = json_decode($response, true);
-
 if (isset($productos['error'])) {
     echo "<p>Error: " . htmlspecialchars($productos['error']) . "</p>";
     exit();
 }
-
 $productos = $productos['data'];
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -66,14 +61,12 @@ $productos = $productos['data'];
             <a class="navbar-brand" href="index.html">Cerrar sesión</a>
         </div>
     </nav>
-
     <div class="sidebar">
         <h4>Menú</h4>
         <ul class="list-unstyled">
             <li><a href="home.php">Home</a></li>
         </ul>
     </div>
-
     <div class="content">
         <div class="container">
             <div class="row">
@@ -99,7 +92,6 @@ $productos = $productos['data'];
             </a>
         </div>
     </div>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

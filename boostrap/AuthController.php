@@ -3,23 +3,18 @@ session_start();
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'] ?? '';
     $password = $_POST['password'] ?? '';
-
     if (empty($email) || empty($password)) {
         $_SESSION['error'] = "Por favor, complete todos los campos.";
         header("Location: /boostrapJoan/boostrap/index.php");
         exit();
     }
-
     $response = login($email, $password);
-
     if (isset($response['code']) && $response['code'] == 2) {
         $_SESSION['user'] = $response['data']['email'];  
         $_SESSION['token'] = $response['data']['token'];  
-
         header("Location: /boostrapJoan/boostrap/home.php");  
         exit();  
     } else {
@@ -28,10 +23,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 }
-
 function login($email, $password) {
     $curl = curl_init();
-
     curl_setopt_array($curl, array(
         CURLOPT_URL => 'https://crud.jonathansoto.mx/api/login',
         CURLOPT_RETURNTRANSFER => true,
@@ -46,14 +39,10 @@ function login($email, $password) {
             'password' => $password
         )),
     ));
-
     $response = curl_exec($curl);
-
     if (curl_errno($curl)) {
         echo 'Error cURL: ' . curl_error($curl);
     }
-
     curl_close($curl);
-
     return json_decode($response, true);  
 }
